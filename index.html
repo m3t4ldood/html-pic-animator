@@ -40,22 +40,38 @@
         var enemyY = canvas.height - enemy.height - 50;
         var enemySpeed = 3;
 
-        function draw() {
-            // Clear the canvas
-            context.clearRect(0, 0, canvas.width, canvas.height);
+        // Keyboard state
+        var keys = {};
 
-            // Draw the background
-            context.drawImage(background, 0, 0);
+        // Key codes
+        var KEY_LEFT = 37;
+        var KEY_UP = 38;
+        var KEY_RIGHT = 39;
+        var KEY_DOWN = 40;
 
-            // Draw the character
-            context.drawImage(character, characterX, characterY);
+        // Key down event listener
+        document.addEventListener("keydown", function (event) {
+            keys[event.keyCode] = true;
+        });
 
-            // Draw the enemy
-            context.drawImage(enemy, enemyX, enemyY);
+        // Key up event listener
+        document.addEventListener("keyup", function (event) {
+            keys[event.keyCode] = false;
+        });
 
-            // Move the character
-            if (characterX < canvas.width - character.width) {
+        function update() {
+            // Move the character based on the pressed keys
+            if (keys[KEY_LEFT] && characterX > 0) {
+                characterX -= characterSpeed;
+            }
+            if (keys[KEY_RIGHT] && characterX < canvas.width - character.width) {
                 characterX += characterSpeed;
+            }
+            if (keys[KEY_UP] && characterY > 0) {
+                characterY -= characterSpeed;
+            }
+            if (keys[KEY_DOWN] && characterY < canvas.height - character.height) {
+                characterY += characterSpeed;
             }
 
             // Move the enemy
@@ -73,11 +89,32 @@
                 // Collision detected
                 alert("Game Over");
             }
+        }
+
+        function draw() {
+            // Clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the background
+            context.drawImage(background, 0, 0);
+
+            // Draw the character
+            context.drawImage(character, characterX, characterY);
+
+            // Draw the enemy
+            context.drawImage(enemy, enemyX, enemyY);
 
             requestAnimationFrame(draw);
         }
 
-        draw();
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game loop
+        gameLoop();
     </script>
 </body>
 </html>
