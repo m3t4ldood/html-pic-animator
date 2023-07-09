@@ -1,92 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Gallery</title>
-  <style>
-    body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Side Scroller Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.image-container {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.instructions {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.footer {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.footer p {
-    font-size: 14px;
-    color: #888;
-}
-  </style>
+        canvas {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <div class="image-container">
-    <img id="image" src="default0.jpg" alt="Image0">
-    <img id="image" src="default1.jpg" alt="Image1">
-  </div>
+    <canvas id="gameCanvas"></canvas>
 
-  <script>
-    var currentImage = 1;
-    var totalImages = 2;
+    <script>
+        // Game variables
+        var canvas = document.getElementById("gameCanvas");
+        var context = canvas.getContext("2d");
 
-    function loadImage() {
-      var imgElement = document.getElementById('image');
-      imgElement.src = `image${currentImage}.jpg`;
-    }
+        var character = new Image();
+        character.src = "character.png";
 
-    function changeImage(direction) {
-      if (direction === 'left') {
-        currentImage = (currentImage - 1 + totalImages) % totalImages;
-      } else if (direction === 'right') {
-        currentImage = (currentImage + 1) % totalImages;
-      }
+        var enemy = new Image();
+        enemy.src = "enemy.png";
 
-      loadImage();
-    }
+        var background = new Image();
+        background.src = "background.png";
 
-    document.addEventListener('keydown', function(event) {
-      switch(event.key) {
-        case 'ArrowLeft':
-          changeImage('left');
-          break;
-        case 'ArrowRight':
-          changeImage('right');
-          break;
-      }
-    });
+        var characterX = 50;
+        var characterY = canvas.height - character.height - 50;
+        var characterSpeed = 5;
 
-    window.onload = function() {
-      loadImage();
-    };
-  </script>
+        var enemyX = canvas.width - enemy.width - 50;
+        var enemyY = canvas.height - enemy.height - 50;
+        var enemySpeed = 3;
+
+        function draw() {
+            // Clear the canvas
+            context.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the background
+            context.drawImage(background, 0, 0);
+
+            // Draw the character
+            context.drawImage(character, characterX, characterY);
+
+            // Draw the enemy
+            context.drawImage(enemy, enemyX, enemyY);
+
+            // Move the character
+            if (characterX < canvas.width - character.width) {
+                characterX += characterSpeed;
+            }
+
+            // Move the enemy
+            if (enemyX > 0) {
+                enemyX -= enemySpeed;
+            }
+
+            // Collision detection
+            if (
+                characterX < enemyX + enemy.width &&
+                characterX + character.width > enemyX &&
+                characterY < enemyY + enemy.height &&
+                characterY + character.height > enemyY
+            ) {
+                // Collision detected
+                alert("Game Over");
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
 </body>
 </html>
