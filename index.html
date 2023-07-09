@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.image-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.instructions {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.footer p {
+    font-size: 14px;
+    color: #888;
+}
+  </style>
+</head>
+<body>
+  <div class="image-container">
+    <img id="image" src="default0.jpg" alt="Image0">
+    <img id="image" src="default1.jpg" alt="Image1">
+  </div>
+
+  <script>
+    var currentImage = 1;
+    var totalImages = 2;
+
+    function loadImage() {
+      var imgElement = document.getElementById('image');
+      imgElement.src = `image${currentImage}.jpg`;
+    }
+
+    function changeImage(direction) {
+      if (direction === 'left') {
+        currentImage = (currentImage - 1 + totalImages) % totalImages;
+      } else if (direction === 'right') {
+        currentImage = (currentImage + 1) % totalImages;
+      }
+
+      loadImage();
+    }
+
+    document.addEventListener('keydown', function(event) {
+      switch(event.key) {
+        case 'ArrowLeft':
+          changeImage('left');
+          break;
+        case 'ArrowRight':
+          changeImage('right');
+          break;
+      }
+    });
+
+    window.onload = function() {
+      loadImage();
+    };
+  </script>
+</body>
+</html>
