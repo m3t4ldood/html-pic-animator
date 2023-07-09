@@ -30,15 +30,20 @@
         enemy.src = "enemy.png";
 
         var background = new Image();
-        background.src = "background.png";
+background.src = "background.png";
+background.onload = function() {
+    canvas.width = background.width;
+    canvas.height = background.height;
+    gameLoop();
+};
 
         var characterX = 50;
         var characterY = canvas.height - character.height - 50;
-        var characterSpeed = 5;
+        var characterSpeed = 1;
 
-        var enemyX = canvas.width - enemy.width - 50;
-        var enemyY = canvas.height - enemy.height - 50;
-        var enemySpeed = 3;
+        var enemyX = canvas.width - enemy.width - 10;
+        var enemyY = canvas.height - enemy.height - 10;
+        var enemySpeed = 1;
 
         // Keyboard state
         var keys = {};
