@@ -48,10 +48,16 @@
         var KEY_UP = 38;
         var KEY_RIGHT = 39;
         var KEY_DOWN = 40;
+        var KEY_SPACE = 32;
 
         // Key down event listener
         document.addEventListener("keydown", function (event) {
             keys[event.keyCode] = true;
+
+            // Start the game when spacebar is pressed
+            if (event.keyCode === KEY_SPACE) {
+                gameLoop();
+            }
         });
 
         // Key up event listener
@@ -96,15 +102,13 @@
             context.clearRect(0, 0, canvas.width, canvas.height);
 
             // Draw the background
-            context.drawImage(background, 0, 0);
+            context.drawImage(background, 0, 0, 1200, 500);
 
             // Draw the character
             context.drawImage(character, characterX, characterY);
 
             // Draw the enemy
             context.drawImage(enemy, enemyX, enemyY);
-
-            requestAnimationFrame(draw);
         }
 
         function gameLoop() {
@@ -113,8 +117,18 @@
             requestAnimationFrame(gameLoop);
         }
 
-        // Start the game loop
-        gameLoop();
+        // Wait for spacebar to start the game
+        function startGame() {
+            document.addEventListener("keydown", function (event) {
+                if (event.keyCode === KEY_SPACE) {
+                    gameLoop();
+                    document.removeEventListener("keydown", startGame);
+                }
+            });
+        }
+
+        // Start the game
+        startGame();
     </script>
 </body>
 </html>
