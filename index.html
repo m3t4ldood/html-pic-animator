@@ -1,139 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D Side Scroller Game</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        canvas {
-            display: block;
-        }
-    </style>
+    <title>🤘🥴 Dynamic Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 <body>
-    <canvas id="gameCanvas"></canvas>
+    <div class="container">
+        <div class="intro">
+        </div>
+        <div class="skills" id="skills"><div class="subheading">
+            <img src="https://i.postimg.cc/NMHhpK5G/som.png" alt="" height="200px" width="400px">
+            <div class="date">
+            <div class="explist" id="albums"><img src="https://i.postimg.cc/j2yBzskG/zoom-close.gif" alt="" height="20px" width="20px">
+            Skills
+            <img src="https://i.postimg.cc/j2yBzskG/zoom-close.gif" alt="" height="20px" width="20px">
+        </div></div><ul id="skillsList">
+                <!-- Skills will be dynamically added here -->
+            </ul>
+        </div>
+        
+            
+            <div class="date">
+            <div class="explist" id="albums"><img src="https://i.postimg.cc/j2yBzskG/zoom-close.gif" alt="" height="20px" width="20px">
+            albums
+            <img src="https://i.postimg.cc/j2yBzskG/zoom-close.gif" alt="" height="20px" width="20px">
+        </div><img src="https://i.postimg.cc/FR4Vhmg3/SickofmE.jpg" alt="albums"></div><ul id="songsList">
+                <!-- Songs will be dynamically added here -->
+            </ul>
+        </div>
+        <div class="subheading"></div>
+        <div class="social">
+            <!-- Social media links here -->
+        </div>
+    </div>
 
-    <script>
-        // Game variables
-        var canvas = document.getElementById("gameCanvas");
-        var context = canvas.getContext("2d");
-
-        var character = new Image();
-        character.src = "character.png";
-
-        var enemy = new Image();
-        enemy.src = "enemy.png";
-
-        var background = new Image();
-background.src = "background.png";
-background.onload = function() {
-    canvas.width = background.width;
-    canvas.height = background.height;
-    gameLoop();
-};
-
-        var characterX = 50;
-        var characterY = canvas.height - character.height - 50;
-        var characterSpeed = 1;
-
-        var enemyX = canvas.width - enemy.width - 10;
-        var enemyY = canvas.height - enemy.height - 10;
-        var enemySpeed = 1;
-
-        // Keyboard state
-        var keys = {};
-
-        // Key codes
-        var KEY_LEFT = 37;
-        var KEY_UP = 38;
-        var KEY_RIGHT = 39;
-        var KEY_DOWN = 40;
-        var KEY_SPACE = 32;
-
-        // Key down event listener
-        document.addEventListener("keydown", function (event) {
-            keys[event.keyCode] = true;
-
-            // Start the game when spacebar is pressed
-            if (event.keyCode === KEY_SPACE) {
-                gameLoop();
-            }
-        });
-
-        // Key up event listener
-        document.addEventListener("keyup", function (event) {
-            keys[event.keyCode] = false;
-        });
-
-        function update() {
-            // Move the character based on the pressed keys
-            if (keys[KEY_LEFT] && characterX > 0) {
-                characterX -= characterSpeed;
-            }
-            if (keys[KEY_RIGHT] && characterX < canvas.width - character.width) {
-                characterX += characterSpeed;
-            }
-            if (keys[KEY_UP] && characterY > 0) {
-                characterY -= characterSpeed;
-            }
-            if (keys[KEY_DOWN] && characterY < canvas.height - character.height) {
-                characterY += characterSpeed;
-            }
-
-            // Move the enemy
-            if (enemyX > 0) {
-                enemyX -= enemySpeed;
-            }
-
-            // Collision detection
-            if (
-                characterX < enemyX + enemy.width &&
-                characterX + character.width > enemyX &&
-                characterY < enemyY + enemy.height &&
-                characterY + character.height > enemyY
-            ) {
-                // Collision detected
-                alert("Game Over");
-            }
-        }
-
-        function draw() {
-            // Clear the canvas
-            context.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw the background
-            context.drawImage(background, 0, 0, 1200, 500);
-
-            // Draw the character
-            context.drawImage(character, characterX, characterY);
-
-            // Draw the enemy
-            context.drawImage(enemy, enemyX, enemyY);
-        }
-
-        function gameLoop() {
-            update();
-            draw();
-            requestAnimationFrame(gameLoop);
-        }
-
-        // Wait for spacebar to start the game
-        function startGame() {
-            document.addEventListener("keydown", function (event) {
-                if (event.keyCode === KEY_SPACE) {
-                    gameLoop();
-                    document.removeEventListener("keydown", startGame);
-                }
-            });
-        }
-
-        // Start the game
-        startGame();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
