@@ -1,74 +1,37 @@
-// script.js
-document.addEventListener('DOMContentLoaded', function() {
-  // Skills data
-  const skillsData = [
-    {
-      skill: 'Drums',
-      instruments: ['Alesis Command', 'Sample pad'],
-      percentage: 80
-    },
-    {
-      skill: 'Guitar',
-      instruments: ['B.C. Rich Warlock', 'Epiphone SG'],
-      percentage: 20
-    },
-    {
-      skill: 'Bass',
-      instruments: ['Ibanez ExSeries'],
-      percentage: 50
-    }
-  ];
+const demoTracks = [
+  { title: "Track 1", source: "audio/track1.mp3", artwork: "artwork1.png" },
+  { title: "Track 2", source: "audio/track2.mp3", artwork: "artwork2.png" },
+  // Add more tracks here
+];
 
-  // Function to generate skills
-  function generateSkills() {
-    const skillsList = document.getElementById('skillsList');
-    let skillsHTML = '';
-    skillsData.forEach(skill => {
-      const instrumentsHTML = skill.instruments.map(instrument => `<li>${instrument}</li>`).join('');
-      skillsHTML += `
-        <li>
-          <div class="skill_name">${skill.skill}<ul>${instrumentsHTML}</ul></div>
-          <div class="skill_prog">
-            <span style="width: ${skill.percentage}%;"></span>
-          </div>
-          <div class="skill_per">${skill.percentage}%</div>
-        </li>
-      `;
-    });
-    skillsList.innerHTML = skillsHTML;
+const audioPlayer = document.getElementById("audioPlayer");
+const artworkContainer = document.getElementById("artworkContainer");
+const trackListElement = document.getElementById("trackList");
+
+// Function to create track list items
+function createTrackListItem(track) {
+  const li = document.createElement("li");
+  li.textContent = track.title;
+  li.addEventListener("click", () => {
+    audioPlayer.src = track.source;
+    audioPlayer.play();
+    displayArtwork(track.artwork);
+  });
+  return li;
+}
+
+// Function to display artwork
+function displayArtwork(artwork) {
+  artworkContainer.innerHTML = `<img src="${artwork}" alt="Artwork">`;
+}
+
+// Function to populate the track list
+function populateTrackList() {
+  for (const track of demoTracks) {
+    const trackListItem = createTrackListItem(track);
+    trackListElement.appendChild(trackListItem);
   }
+}
 
-  // Call the function to generate skills
-  generateSkills();
-
-  // Songs data
-  const songsData = [
-    {
-      title: 'Am I Dead Yet?',
-      description: 'The sickness inside me...'
-    },
-    {
-      title: 'PaperHeart'
-    },
-    {
-      title: 'My Shadow'
-    }
-  ];
-
-  // Function to generate songs
-  function generateSongs() {
-    const songsList = document.getElementById('songsList');
-    let songsHTML = '';
-    songsData.forEach(song => {
-      const descriptionHTML = song.description ? `<div class="songdesc">${song.description}</div>` : '';
-      songsHTML += `
-        <div class="songtitle">${song.title}</div>
-        ${descriptionHTML}
-      `;
-    });
-    songsList.innerHTML = songsHTML;
-  }
-
-  // Call the function to generate songs
-  generateSongs();
-});
+// Call the function to populate the track list
+populateTrackList();
